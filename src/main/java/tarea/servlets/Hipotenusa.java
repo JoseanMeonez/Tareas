@@ -26,31 +26,58 @@ public class Hipotenusa extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Leer parámetros y preparar salida
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-		String aParam = request.getParameter("a");
-		String bParam = request.getParameter("b");
-	
-		String entrada = 
-			"a=" + (aParam == null ? "" : aParam) + 
-			", b=" + (bParam == null ? "" : bParam);
+
+		// Opcion a ejecutar
+		String compute = request.getParameter("compute");
+		String v1 = request.getParameter("v1");
+		String v2 = request.getParameter("v2");
+		String entrada = "";
 		String respuesta = "";
-	
-		if (aParam == null || bParam == null || 
-			aParam.trim().isEmpty() || bParam.trim().isEmpty()
+
+		if (compute == null ||
+			 v1 == null || v2 == null || 
+			v1.trim().isEmpty() || v2.trim().isEmpty()
 		) {
-			respuesta = "Introduce valores para a y b.";
+			respuesta = "Introduce los dos valores necesarios.";
+			entrada = "";
 		} else {
 			try {
-				double a = Double.parseDouble(aParam);
-				double b = Double.parseDouble(bParam);
-				double inside = a * a - b * b;
-				if (inside < 0) {
-					respuesta = "a² - b² es negativo (" + String.format("%.4f", inside) + "). No hay raíz real.";
+				double x = Double.parseDouble(v1);
+				double y = Double.parseDouble(v2);
+				if ("a".equals(compute)) {
+					entrada = "b=" + v1 + ", c=" + v2;
+					double a = Math.sqrt(x * x + y * y);
+					respuesta = String.format("a = %.4f", a);
+					
+				} else if ("b".equals(compute)) {
+					entrada = "a=" + v1 + ", c=" + v2;
+
+					//Valor dentro de la raiz
+					double inside = x * x - y * y;
+					
+					if (inside < 0) {
+	
+						respuesta = "a² - c² es negativo. No hay raíz real.";
+					} else {
+						double b = Math.sqrt(inside);
+						respuesta = String.format("b = %.4f", b);
+					}
+
 				} else {
-					double c = Math.sqrt(inside);
-					respuesta = String.format("c = %.4f", c);
+
+					entrada = "a=" + v1 + ", b=" + v2;
+					
+					//Valor dentro de la raiz
+					double inside = x * x - y * y;
+					
+					if (inside < 0) {
+						respuesta = "a² - b² es negativo. No hay raíz real.";
+					} else {
+						double c = Math.sqrt(inside);
+						respuesta = String.format("c = %.4f", c);
+					}
 				}
 			} catch (NumberFormatException e) {
 				respuesta = "Valores inválidos. Escribe números.";
@@ -62,7 +89,7 @@ public class Hipotenusa extends HttpServlet {
 			out.println("<html><head><meta charset='UTF-8'><title>Resultado - Hipotenusa</title></head><body>");
 			out.println("<h2>Andrés Meoñez</h2>");
 			out.println("<h2>Cuenta: 201910030181</h2>");
-			out.println("<p>Operación realizada: Calcular c = √(a² - b²)</p>");
+			out.println("<p>Operación realizada: Calcular lado " + (compute == null ? "" : compute) + "</p>");
 			out.println("<table border='1'><tr><th>Entrada</th><th>Respuesta</th></tr>");
 			out.println("<tr><td>" + (entrada.isEmpty() ? "-" : entrada) + "</td><td>" + respuesta + "</td></tr>");
 			out.println("</table>");

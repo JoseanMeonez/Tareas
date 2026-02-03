@@ -7,7 +7,10 @@
 </head>
 
 <body>
-	<h1>Pequeñas utilidades</h1>
+	<h1>Ejercicios de Servlets - Grupo #2</h1>
+	<h2>Ronald Maradiaga - </h2>
+	<h2>Rafael Cruz - </h2>
+	<h2>Andrés Meoñez - 201910030181</h2>
 	<p>Selecciona la acción que quieres realizar:</p>
 
 	<label><input type="radio" name="tool" value="hipo" checked onchange="showForm()"> Calcular hipotenusa</label>
@@ -18,10 +21,19 @@
 
 	<!-- Formulario Hipotenusa -->
 	<div id="form-hipo">
-		<h2>Calcular hipotenusa (c = √(a² - b²))</h2>
+		<h2>Calcular hipotenusa</h2>
 		<form method="post" action="Hipotenusa">
-			<label>a: <input name="a" /></label><br />
-			<label>b: <input name="b" /></label><br />
+			<label>Calcular:
+				<select name="compute" id="compute">
+					<option value="c" selected>c = √(a² - b²) (introduce a, b)</option>
+					<option value="b">b = √(a² - c²) (introduce a, c)</option>
+					<option value="a">a = √(b² + c²) (introduce b, c)</option>
+				</select>
+			</label>
+			<br />
+			<label>Valor 1: <input name="v1" /></label><br />
+			<label>Valor 2: <input name="v2" /></label><br />
+			<p><small>Nota: Según la opción elegida, Valor 1 y Valor 2 corresponden a las variables indicadas entre paréntesis.</small></p>
 			<button type="submit">Calcular</button>
 		</form>
 	</div>
