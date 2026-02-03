@@ -23,27 +23,6 @@ public class Hipotenusa extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Preparar la respuesta en UTF-8
-		response.setContentType("text/html;charset=UTF-8");
-		
-		// Mostrar un formulario simple para introducir a y b
-		try (java.io.PrintWriter out = response.getWriter()) {
-			out.println("<!DOCTYPE html>");
-			out.println("<html><head><meta charset='UTF-8'><title>Hipotenusa</title></head><body>");
-			out.println("<h1>Calcular hipotenusa (c = √(a² - b²))</h1>");
-			out.println("<form method=\"post\" action=\"Hipotenusa\">");
-			out.println("a: <input name=\"a\" /> <br/>");
-			out.println("b: <input name=\"b\" /> <br/>");
-			out.println("<button type=\"submit\">Calcular</button>");
-			out.println("</form>");
-			out.println("</body></html>");
-		}
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -53,10 +32,14 @@ public class Hipotenusa extends HttpServlet {
 		String aParam = request.getParameter("a");
 		String bParam = request.getParameter("b");
 	
-		String entrada = "a=" + (aParam == null ? "" : aParam) + ", b=" + (bParam == null ? "" : bParam);
+		String entrada = 
+			"a=" + (aParam == null ? "" : aParam) + 
+			", b=" + (bParam == null ? "" : bParam);
 		String respuesta = "";
 	
-		if (aParam == null || bParam == null || aParam.trim().isEmpty() || bParam.trim().isEmpty()) {
+		if (aParam == null || bParam == null || 
+			aParam.trim().isEmpty() || bParam.trim().isEmpty()
+		) {
 			respuesta = "Introduce valores para a y b.";
 		} else {
 			try {

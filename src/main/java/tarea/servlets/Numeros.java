@@ -23,30 +23,6 @@ public class Numeros extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// Preparar la respuesta en UTF-8
-		response.setContentType("text/html;charset=UTF-8");
-
-		// Mostrar un formulario simple para introducir a y b
-		try (java.io.PrintWriter out = response.getWriter()) {
-			out.println("<!DOCTYPE html>");
-			out.println("<html><head><meta charset='UTF-8'><title>Que Numero es mayor</title></head><body>");
-			out.println("<h1>Calcular el numero mayor</h1>");
-			out.println("<form method=\"post\" action=\"Numeros\">");
-			out.println("a: <input name=\"a\" /> <br/>");
-			out.println("b: <input name=\"b\" /> <br/>");
-			out.println("c: <input name=\"c\" /> <br/>");
-			out.println("<button type=\"submit\">Calcular</button>");
-			out.println("</form>");
-			out.println("</body></html>");
-		}
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -61,11 +37,6 @@ public class Numeros extends HttpServlet {
 		String respuesta = "";
 
 		try (java.io.PrintWriter out = response.getWriter()) {
-			out.println("<!DOCTYPE html>");
-			out.println("<html><head><meta charset='UTF-8'><title>Resultado</title></head><body>");
-			out.println("<h2>Rafael Cruz</h2>");
-			out.println("<h2>Cuenta: 12345678</h2>");
-			out.println("<p>Operación realizada: Encontrar número mayor</p>");
 
 			// Comprobar que haya valores
 			if (n1Param == null || n2Param == null || n3Param == null || n1Param.trim().isEmpty()
@@ -95,6 +66,13 @@ public class Numeros extends HttpServlet {
 					respuesta = "Ingrese solo valores numéricos.";
 				}
 			}
+
+			
+			out.println("<!DOCTYPE html>");
+			out.println("<html><head><meta charset='UTF-8'><title>Resultado</title></head><body>");
+			out.println("<h2>Rafael Cruz</h2>");
+			out.println("<h2>Cuenta: 12345678</h2>");
+			out.println("<p>Operación realizada: Encontrar número mayor</p>");
 			out.println("<table border='1'><tr><th>Entrada</th><th>Respuesta</th></tr>");
 			out.println("<tr><td>" + (entrada.isEmpty() ? "-" : entrada) + "</td><td>" + respuesta + "</td></tr>");
 			out.println("</table>");
