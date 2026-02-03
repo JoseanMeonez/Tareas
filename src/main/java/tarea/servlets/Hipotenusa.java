@@ -52,35 +52,38 @@ public class Hipotenusa extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		String aParam = request.getParameter("a");
 		String bParam = request.getParameter("b");
-		
+	
+		String entrada = "a=" + (aParam == null ? "" : aParam) + ", b=" + (bParam == null ? "" : bParam);
+		String respuesta = "";
+	
+		if (aParam == null || bParam == null || aParam.trim().isEmpty() || bParam.trim().isEmpty()) {
+			respuesta = "Introduce valores para a y b.";
+		} else {
+			try {
+				double a = Double.parseDouble(aParam);
+				double b = Double.parseDouble(bParam);
+				double inside = a * a - b * b;
+				if (inside < 0) {
+					respuesta = "a² - b² es negativo (" + String.format("%.4f", inside) + "). No hay raíz real.";
+				} else {
+					double c = Math.sqrt(inside);
+					respuesta = String.format("c = %.4f", c);
+				}
+			} catch (NumberFormatException e) {
+				respuesta = "Valores inválidos. Escribe números.";
+			}
+		}
+	
 		try (java.io.PrintWriter out = response.getWriter()) {
 			out.println("<!DOCTYPE html>");
-			out.println("<html><head><meta charset='UTF-8'><title>Resultado</title></head><body>");
-			out.println("<h1>Resultado</h1>");
-			
-			// Comprobar que haya valores
-			if (aParam == null || bParam == null || aParam.trim().isEmpty() || bParam.trim().isEmpty()) {
-				out.println("<p style='color:red;'>Introduce valores para a y b.</p>");
-			} else {
-				// Intentar convertir a números
-				try {
-					double a = Double.parseDouble(aParam);
-					double b = Double.parseDouble(bParam);
-					
-					// Calcular c = sqrt(a^2 - b^2)
-					double inside = a * a - b * b;
-					if (inside < 0) {
-						out.println("<p style='color:red;'>a² - b² es negativo. No hay raíz real.</p>");
-					} else {
-						double c = Math.sqrt(inside);
-						out.println("<p>Resultado: c = " + c + "</p>");
-					}
-				} catch (NumberFormatException e) {
-					out.println("<p style='color:red;'>Valores inválidos. Escribe números.</p>");
-				}
-			}
-			
-			out.println("<p><a href=\"Hipotenusa\">Volver</a></p>");
+			out.println("<html><head><meta charset='UTF-8'><title>Resultado - Hipotenusa</title></head><body>");
+			out.println("<h2>Andrés Meoñez</h2>");
+			out.println("<h2>Cuenta: 201910030181</h2>");
+			out.println("<p>Operación realizada: Calcular c = √(a² - b²)</p>");
+			out.println("<table border='1'><tr><th>Entrada</th><th>Respuesta</th></tr>");
+			out.println("<tr><td>" + (entrada.isEmpty() ? "-" : entrada) + "</td><td>" + respuesta + "</td></tr>");
+			out.println("</table>");
+			out.println("<p><a href='index.html'>Volver</a></p>");
 			out.println("</body></html>");
 		}
 	}

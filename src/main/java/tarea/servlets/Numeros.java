@@ -57,17 +57,21 @@ public class Numeros extends HttpServlet {
 		String n1Param = request.getParameter("a");
 		String n2Param = request.getParameter("b");
 		String n3Param = request.getParameter("c");
+		String entrada = "a=" + (n1Param == null ? "" : n1Param) + ", b=" + (n2Param == null ? "" : n2Param) + ", c=" + (n3Param == null ? "" : n3Param);
+		String respuesta = "";
 
 		try (java.io.PrintWriter out = response.getWriter()) {
 			out.println("<!DOCTYPE html>");
 			out.println("<html><head><meta charset='UTF-8'><title>Resultado</title></head><body>");
-			out.println("<h1>Resultado</h1>");
+			out.println("<h2>Rafael Cruz</h2>");
+			out.println("<h2>Cuenta: 12345678</h2>");
+			out.println("<p>Operación realizada: Encontrar número mayor</p>");
 
 			// Comprobar que haya valores
 			if (n1Param == null || n2Param == null || n3Param == null || n1Param.trim().isEmpty()
 					|| n2Param.trim().isEmpty() || n3Param.trim().isEmpty()) {
 
-				out.println("<p style='color:red;'>Debe ingresar los tres números.</p>");
+					respuesta = "Debe ingresar los tres números.";
 
 			} else {
 				try {
@@ -83,18 +87,18 @@ public class Numeros extends HttpServlet {
 					if (n3 > mayor) {
 						mayor = n3;
 					}
-					if (n3 == mayor ||n2 == n3) {
-						out.println("<p>Los numero son iguales</p>");
-						;
-					}
 
-					out.println("<p>El número mayor es: <strong>" + mayor + "</strong></p>");
+
+					respuesta = "El número mayor es: " + mayor;
 
 				} catch (NumberFormatException e) {
-					out.println("<p style='color:red;'>Ingrese solo valores numéricos.</p>");
+					respuesta = "Ingrese solo valores numéricos.";
 				}
 			}
-			out.println("<p><a href=\"Numeros\">Volver</a></p>");
+			out.println("<table border='1'><tr><th>Entrada</th><th>Respuesta</th></tr>");
+			out.println("<tr><td>" + (entrada.isEmpty() ? "-" : entrada) + "</td><td>" + respuesta + "</td></tr>");
+			out.println("</table>");
+			out.println("<p><a href=\"index.html\">Volver</a></p>");
 			out.println("</body></html>");
 		}
 	}
