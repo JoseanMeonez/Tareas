@@ -37,7 +37,7 @@ public class Hipotenusa extends HttpServlet {
 		String respuesta = "";
 
 		if (compute == null ||
-			 v1 == null || v2 == null || 
+			v1 == null || v2 == null || 
 			v1.trim().isEmpty() || v2.trim().isEmpty()
 		) {
 			respuesta = "Introduce los dos valores necesarios.";
@@ -46,38 +46,22 @@ public class Hipotenusa extends HttpServlet {
 			try {
 				double x = Double.parseDouble(v1);
 				double y = Double.parseDouble(v2);
+				
 				if ("a".equals(compute)) {
+					
 					entrada = "b=" + v1 + ", c=" + v2;
-					double a = Math.sqrt(x * x + y * y);
-					respuesta = String.format("a = %.4f", a);
-					
-				} else if ("b".equals(compute)) {
-					entrada = "a=" + v1 + ", c=" + v2;
+					respuesta = computeA(x, y);
 
-					//Valor dentro de la raiz
-					double inside = x * x - y * y;
+				} else if ("b".equals(compute)) {
 					
-					if (inside < 0) {
-	
-						respuesta = "a² - c² es negativo. No hay raíz real.";
-					} else {
-						double b = Math.sqrt(inside);
-						respuesta = String.format("b = %.4f", b);
-					}
+					entrada = "a=" + v1 + ", c=" + v2;
+					respuesta = computeB(x, y);
 
 				} else {
 
 					entrada = "a=" + v1 + ", b=" + v2;
-					
-					//Valor dentro de la raiz
-					double inside = x * x - y * y;
-					
-					if (inside < 0) {
-						respuesta = "a² - b² es negativo. No hay raíz real.";
-					} else {
-						double c = Math.sqrt(inside);
-						respuesta = String.format("c = %.4f", c);
-					}
+					respuesta = computeC(x, y);
+
 				}
 			} catch (NumberFormatException e) {
 				respuesta = "Valores inválidos. Escribe números.";
@@ -96,6 +80,39 @@ public class Hipotenusa extends HttpServlet {
 			out.println("<p><a href='index.html'>Volver</a></p>");
 			out.println("</body></html>");
 		}
+	}
+
+	// Calcular a = sqrt(b^2 + c^2)
+	private String computeA(double b, double c) {
+		double a = Math.sqrt(b * b + c * c);
+
+		return String.format("a = %.4f", a);
+	}
+
+	// Calcular b = sqrt(a^2 - c^2)
+	private String computeB(double a, double c) {
+		double inside = a * a - c * c;
+		
+		if (inside < 0) {
+			return "a² - c² (" + inside + ") es negativo. No hay raíz real.";
+		}
+		
+		double b = Math.sqrt(inside);
+		
+		return String.format("b = %.4f", b);
+	}
+
+	// Calcular c = sqrt(a^2 - b^2)
+	private String computeC(double a, double b) {
+		double inside = a * a - b * b;
+		
+		if (inside < 0) {
+			return "a² - b² (" + inside + ") es negativo. No hay raíz real.";
+		}
+		
+		double c = Math.sqrt(inside);
+		
+		return String.format("c = %.4f", c);
 	}
 
 }
