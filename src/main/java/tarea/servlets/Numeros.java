@@ -50,10 +50,12 @@ public class Numeros extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Leer parámetros y preparar salida
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
+
 		String n1Param = request.getParameter("a");
 		String n2Param = request.getParameter("b");
 		String n3Param = request.getParameter("c");
@@ -63,7 +65,6 @@ public class Numeros extends HttpServlet {
 			out.println("<html><head><meta charset='UTF-8'><title>Resultado</title></head><body>");
 			out.println("<h1>Resultado</h1>");
 
-			// Comprobar que haya valores
 			if (n1Param == null || n2Param == null || n3Param == null || n1Param.trim().isEmpty()
 					|| n2Param.trim().isEmpty() || n3Param.trim().isEmpty()) {
 
@@ -76,6 +77,7 @@ public class Numeros extends HttpServlet {
 					double n3 = Double.parseDouble(n3Param);
 
 					double mayor = n1;
+					double menor = n1;
 
 					if (n2 > mayor) {
 						mayor = n2;
@@ -83,20 +85,28 @@ public class Numeros extends HttpServlet {
 					if (n3 > mayor) {
 						mayor = n3;
 					}
-					if (n3 == mayor ||n2 == n3) {
-						out.println("<p>Los numero son iguales</p>");
-						;
+
+					if (n2 < menor) {
+						menor = n2;
+					}
+					if (n3 < menor) {
+						menor = n3;
 					}
 
-					out.println("<p>El número mayor es: <strong>" + mayor + "</strong></p>");
+					if (n1 == n2 && n2 == n3) {
+						out.println("<p>Los tres números son iguales: " + n1 + "</p>");
+					} else {
+						out.println("<p>El número mayor es: <strong>" + mayor + "</strong></p>");
+						out.println("<p>El número menor es: <strong>" + menor + "</strong></p>");
+					}
 
 				} catch (NumberFormatException e) {
 					out.println("<p style='color:red;'>Ingrese solo valores numéricos.</p>");
 				}
 			}
+
 			out.println("<p><a href=\"Numeros\">Volver</a></p>");
 			out.println("</body></html>");
 		}
 	}
-
 }
