@@ -9,12 +9,12 @@
 <body>
 	<h1>Ejercicios de Servlets - Grupo #2</h1>
 	<h2>Ronald Maradiaga - </h2>
-	<h2>Rafael Cruz - </h2>
+	<h2>Rafael Cruz - 202310020071</h2>
 	<h2>Andrés Meoñez - 201910030181</h2>
 	<p>Selecciona la acción que quieres realizar:</p>
 
 	<label><input type="radio" name="tool" value="hipo" checked onchange="showForm()"> Calcular hipotenusa</label>
-	<label><input type="radio" name="tool" value="num" onchange="showForm()"> Número mayor</label>
+	<label><input type="radio" name="tool" value="num" onchange="showForm()"> Número mayor/menor/repetido</label>
 	<label><input type="radio" name="tool" value="bin" onchange="showForm()"> Conversión binario/decimal</label>
 
 	<hr />
@@ -40,11 +40,18 @@
 
 	<!-- Formulario Numeros -->
 	<div id="form-num" style="display:none;">
-		<h2>Encontrar el número mayor</h2>
+		<h2>Encontrar el número mayor/menor/que mas se repite</h2>
 		<form method="post" action="Numeros">
-			<label>a: <input name="a" /></label><br />
-			<label>b: <input name="b" /></label><br />
-			<label>c: <input name="c" /></label><br />
+			<label>a: <input name="a"></label><br>
+			<label>b: <input name="b"></label><br>
+			<label>c: <input name="c"></label><br>
+			<label>Operación:
+				<select name="tipo">
+					<option value="mayor">Número mayor</option>
+					<option value="menor">Número menor</option>
+					<option value="repetido">Número que más se repite</option>
+				</select>
+			</label><br>
 			<button type="submit">Calcular</button>
 		</form>
 	</div>

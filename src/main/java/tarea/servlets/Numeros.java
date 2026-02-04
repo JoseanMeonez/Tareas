@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Servlet implementation class Numeros
@@ -27,58 +28,94 @@ public class Numeros extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Leer parámetros y preparar salida
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-		String n1Param = request.getParameter("a");
-		String n2Param = request.getParameter("b");
-		String n3Param = request.getParameter("c");
-		String entrada = "a=" + (n1Param == null ? "" : n1Param) + ", b=" + (n2Param == null ? "" : n2Param) + ", c=" + (n3Param == null ? "" : n3Param);
+
+		String aParam = request.getParameter("a");
+		String bParam = request.getParameter("b");
+		String cParam = request.getParameter("c");
+		String tipo = request.getParameter("tipo");
+
+		String operacion = "";
+		String entrada = "";
 		String respuesta = "";
 
-		try (java.io.PrintWriter out = response.getWriter()) {
+		try {
+			double a = Double.parseDouble(aParam);
+			double b = Double.parseDouble(bParam);
+			double c = Double.parseDouble(cParam);
 
-			// Comprobar que haya valores
-			if (n1Param == null || n2Param == null || n3Param == null || n1Param.trim().isEmpty()
-					|| n2Param.trim().isEmpty() || n3Param.trim().isEmpty()) {
+			entrada = "a=" + a + ", b=" + b + ", c=" + c;
 
-					respuesta = "Debe ingresar los tres números.";
+			switch (tipo) {
+				case "mayor":
+					operacion = "Encontrar numero mayor";
+					respuesta = "El numero mayor es: " + numeroMayor(a, b, c);
+					break;
 
-			} else {
-				try {
-					double n1 = Double.parseDouble(n1Param);
-					double n2 = Double.parseDouble(n2Param);
-					double n3 = Double.parseDouble(n3Param);
+				case "menor":
+					operacion = "Encontrar numero menor";
+					respuesta = "El numero menor es: " + numeroMenor(a, b, c);
+					break;
 
-					double mayor = n1;
+				case "repetido":
+					operacion = "Numero que más se repite";
+					respuesta = numeroRepetido(a, b, c);
+					break;
 
-					if (n2 > mayor) {
-						mayor = n2;
-					}
-					if (n3 > mayor) {
-						mayor = n3;
-					}
-
-
-					respuesta = "El número mayor es: " + mayor;
-
-				} catch (NumberFormatException e) {
-					respuesta = "Ingrese solo valores numéricos.";
-				}
+				default:
+					respuesta = "Operación no valida.";
 			}
 
-			
+		} catch (NumberFormatException e) {
+			operacion = "Error";
+			entrada = "Valores invalidos";
+			respuesta = "Ingrese solo números validos.";
+		}
+
+
+		try (PrintWriter out = response.getWriter()) {
 			out.println("<!DOCTYPE html>");
-			out.println("<html><head><meta charset='UTF-8'><title>Resultado</title></head><body>");
-			out.println("<h2>Rafael Cruz</h2>");
-			out.println("<h2>Cuenta: 12345678</h2>");
-			out.println("<p>Operación realizada: Encontrar número mayor</p>");
-			out.println("<table border='1'><tr><th>Entrada</th><th>Respuesta</th></tr>");
-			out.println("<tr><td>" + (entrada.isEmpty() ? "-" : entrada) + "</td><td>" + respuesta + "</td></tr>");
+			out.println("<html><head><meta charset='UTF-8'><title>Resultado - Numeros</title></head><body>");
+			out.println("<h2>Jose Rafael Cruz</h2>");
+			out.println("<h2>Cuenta: 202310020071</h2>");
+			out.println("<p>Operación realizada: " + operacion + "</p>");
+			out.println("<table border='1'>");
+			out.println("<tr><th>Entrada</th><th>Respuesta</th></tr>");
+			out.println("<tr><td>" + (entrada.isEmpty() ? "-" : entrada) + "</td>");
+			out.println("<td>" + respuesta + "</td></tr>");
 			out.println("</table>");
-			out.println("<p><a href=\"index.html\">Volver</a></p>");
+			out.println("<p><a href='index.html'>Regresar</a></p>");
 			out.println("</body></html>");
 		}
 	}
 
+	// Mayor
+	private double numeroMayor(double a, double b, double c) {
+		double mayor = a;
+		if (b > mayor) mayor = b;
+		if (c > mayor) mayor = c;
+		return mayor;
+	}
+
+	// Menor
+	private double numeroMenor(double a, double b, double c) {
+		double menor = a;
+		if (b < menor) menor = b;
+		if (c < menor) menor = c;
+		return menor;
+	}
+
+	// Repetido
+	private String numeroRepetido(double a, double b, double c) {
+		if (a == b && b == c) {
+			return "Los tres numeros son iguales: " + a;
+		} else if (a == b || a == c) {
+			return "El numero que mas se repite es: " + a;
+		} else if (b == c) {
+			return "El numero que mas se repite es: " + b;
+		} else {
+			return "No hay números repetidos.";
+		}
+	}
 }
