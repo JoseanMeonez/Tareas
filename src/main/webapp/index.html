@@ -1,21 +1,29 @@
+
 <!DOCTYPE html>
 <html>
 
 <head>
-	<meta charset="UTF-8">
-	<title>Herramientas - Tareas</title>
+<meta charset="UTF-8">
+<title>Herramientas - Tareas</title>
 </head>
 
 <body>
 	<h1>Ejercicios de Servlets - Grupo #2</h1>
-	<h2>Ronald Maradiaga - </h2>
-	<h2>Rafael Cruz - </h2>
+	<h2>Ronald Maradiaga -</h2>
+	<h2>Rafael Cruz - 202310020071</h2>
 	<h2>Andrés Meoñez - 201910030181</h2>
 	<p>Selecciona la acción que quieres realizar:</p>
 
-	<label><input type="radio" name="tool" value="hipo" checked onchange="showForm()"> Calcular hipotenusa</label>
-	<label><input type="radio" name="tool" value="num" onchange="showForm()"> Número mayor</label>
-	<label><input type="radio" name="tool" value="bin" onchange="showForm()"> Conversión binario/decimal</label>
+	<label><input type="radio" name="tool" value="hipo" checked
+		onchange="showForm()"> Calcular hipotenusa</label>
+	<label><input type="radio" name="tool" value="mayor"
+		onchange="showForm()"> Número mayor</label>
+	<label><input type="radio" name="tool" value="menor"
+		onchange="showForm()"> Número menor</label>
+	<label><input type="radio" name="tool" value="repetido"
+		onchange="showForm()"> Número que se repita mas veces</label>
+	<label><input type="radio" name="tool" value="bin"
+		onchange="showForm()"> Conversión binario/decimal</label>
 
 	<hr />
 
@@ -23,42 +31,65 @@
 	<div id="form-hipo">
 		<h2>Calcular hipotenusa</h2>
 		<form method="post" action="Hipotenusa">
-			<label>Calcular:
-				<select name="compute" id="compute">
+			<label>Calcular: <select name="compute" id="compute">
 					<option value="c" selected>c = √(a² - b²) (introduce a, b)</option>
 					<option value="b">b = √(a² - c²) (introduce a, c)</option>
 					<option value="a">a = √(b² + c²) (introduce b, c)</option>
-				</select>
-			</label>
-			<br />
-			<label>Valor 1: <input name="v1" /></label><br />
-			<label>Valor 2: <input name="v2" /></label><br />
-			<p><small>Nota: Según la opción elegida, Valor 1 y Valor 2 corresponden a las variables indicadas entre paréntesis.</small></p>
+			</select>
+			</label> <br /> <label>Valor 1: <input name="v1" /></label><br /> <label>Valor
+				2: <input name="v2" />
+			</label><br />
+			<p>
+				<small>Nota: Según la opción elegida, Valor 1 y Valor 2
+					corresponden a las variables indicadas entre paréntesis.</small>
+			</p>
 			<button type="submit">Calcular</button>
 		</form>
 	</div>
 
-	<!-- Formulario Numeros -->
-	<div id="form-num" style="display:none;">
+	<!-- MAYOR -->
+	<div id="form-mayor" style="display: none;">
 		<h2>Encontrar el número mayor</h2>
 		<form method="post" action="Numeros">
-			<label>a: <input name="a" /></label><br />
-			<label>b: <input name="b" /></label><br />
-			<label>c: <input name="c" /></label><br />
+			<label>a: <input name="a"></label><br> <label>b:
+				<input name="b">
+			</label><br> <label>c: <input name="c"></label><br>
 			<button type="submit">Calcular</button>
 		</form>
 	</div>
 
+	<!-- MENOR -->
+	<div id="form-menor" style="display: none;">
+		<h2>Encontrar el número menor</h2>
+		<form method="post" action="NumeroMenor">
+			<label>a: <input name="a"></label><br> <label>b:
+				<input name="b">
+			</label><br> <label>c: <input name="c"></label><br>
+			<button type="submit">Calcular</button>
+		</form>
+	</div>
+
+	<!-- REPETIDO -->
+	<div id="form-repetido" style="display: none;">
+		<h2>Número que más se repite</h2>
+		<form method="post" action="NumeroRepetido">
+			<label>a: <input name="a"></label><br> <label>b:
+				<input name="b">
+			</label><br> <label>c: <input name="c"></label><br>
+			<button type="submit">Calcular</button>
+		</form>
+	</div>
+
+
 	<!-- Formulario Binarios -->
-	<div id="form-bin" style="display:none;">
+	<div id="form-bin" style="display: none;">
 		<h2>Conversión Binario ⇄ Decimal</h2>
 		<form method="post" action="Binarios">
-			<label>Valor: <input name="valor" /></label><br />
-			<label>Tipo:
+			<label>Valor: <input name="valor" /></label><br /> <label>Tipo:
 				<select name="tipo">
 					<option value="toDecimal">Binario → Decimal</option>
 					<option value="toBinary">Decimal → Binario</option>
-				</select>
+			</select>
 			</label><br />
 			<button type="submit">Convertir</button>
 		</form>
@@ -66,14 +97,29 @@
 
 	<script>
 		function showForm() {
-			var sel = document.querySelector('input[name="tool"]:checked').value;
-			document.getElementById('form-hipo').style.display = (sel === 'hipo') ? 'block' : 'none';
-			document.getElementById('form-num').style.display = (sel === 'num') ? 'block' : 'none';
-			document.getElementById('form-bin').style.display = (sel === 'bin') ? 'block' : 'none';
+			let sel = document.querySelector('input[name="tool"]:checked').value;
+
+			document.getElementById('form-hipo').style.display = 'none';
+			document.getElementById('form-mayor').style.display = 'none';
+			document.getElementById('form-menor').style.display = 'none';
+			document.getElementById('form-repetido').style.display = 'none';
+			document.getElementById('form-bin').style.display = 'none';
+
+			if (sel === 'hipo')
+				document.getElementById('form-hipo').style.display = 'block';
+			if (sel === 'mayor')
+				document.getElementById('form-mayor').style.display = 'block';
+			if (sel === 'menor')
+				document.getElementById('form-menor').style.display = 'block';
+			if (sel === 'repetido')
+				document.getElementById('form-repetido').style.display = 'block';
+			if (sel === 'bin')
+				document.getElementById('form-bin').style.display = 'block';
 		}
-		// Asegurar que se muestre el formulario inicial correctamente
+
 		document.addEventListener('DOMContentLoaded', showForm);
 	</script>
+
 </body>
 
 </html>
